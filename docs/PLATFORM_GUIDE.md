@@ -187,7 +187,7 @@ Detail: `docs/BRANCHING.md`.
 
 ## 7. CI — `infra-plan.yml` / `infra-apply.yml` (Terraform-first)
 
-Workflows call **HashiCorp Terraform CLI** via **`.github/actions/terraform-fast`** (step names: `terraform fmt -check`, `terraform validate`, `terraform test`, `terraform init`, `terraform plan`, `terraform apply`). Shell scripts under `infra/scripts/` are for **local laptops only** (`tf.sh`, `test-static.sh`).
+Workflows call **Terraform CLI** directly in `infra-plan.yml` / `infra-apply.yml` (fmt, validate, test, then `tf-plan-all.sh` / `ci-gcp-apply.sh` which run `terraform init` / `plan` / `apply`). No composite Actions.
 
 | Job | Name (required check) | Credentials | What it does |
 |-----|----------------------|-------------|--------------|
