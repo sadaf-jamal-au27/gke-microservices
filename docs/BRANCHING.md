@@ -10,14 +10,14 @@ Use **GitHub Flow** on every repo. Do **not** maintain a long-lived `develop` br
 | **`feature/<name>`** | Short-lived work. Open a PR into **`main`**. |
 
 ```text
-feature/checkout-fix ──PR──► main ──► CI ──► (optional) deploy via workflow_dispatch
+feature/checkout-fix ──PR──► main (plan) ──merge──► push main (apply to GCP dev)
 ```
 
 ## Repos (each has its **own** pipeline)
 
 | Repo | Workflow | Runs when |
 |------|----------|-----------|
-| [gke-retail-infra](https://github.com/sadaf-jamal-au27/gke-retail-infra) | `infra-ci.yml` | Push/PR to **`main`** (paths: `fast/**`, `scripts/**`) |
+| [gke-retail-infra](https://github.com/sadaf-jamal-au27/gke-retail-infra) | `infra-ci.yml` | PR → **plan**; merge/push **`main`** → **apply** (dev); dispatch for other envs |
 | [gke-retail-application](https://github.com/sadaf-jamal-au27/gke-retail-application) | `application-ci.yml` | Push/PR to **`main`** |
 | [gke-retail-devops](https://github.com/sadaf-jamal-au27/gke-retail-devops) | `devops-ci.yml` | Push/PR to **`main`** |
 | [gke-microservices](https://github.com/sadaf-jamal-au27/gke-microservices) | All lane workflows | Push/PR to **`main`** (optional monorepo) |
@@ -42,7 +42,7 @@ On **`main`** only:
 
 ## Deploy
 
-- **Infra:** Actions → `infra-ci` → **Run workflow** → plan/apply, environment **dev**  
+- **Infra:** PR → validate + **terraform plan**; merge to **`main`** → validate + **terraform apply** (GitHub Environment **dev**). Manual **Run workflow** for qa/test/prod when ready.
 - **DevOps:** Actions → `devops-ci` → **Run workflow** → deploy **dev**  
 - **Application:** Push to **`main`** builds; image push uses environment **dev**
 

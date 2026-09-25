@@ -62,14 +62,14 @@ Workflows fall back to these if variables are unset.
 
 | Repo | Workflow | WIF |
 |------|----------|-----|
-| gke-retail-infra | `infra-ci.yml` | Plan on PR; apply via dispatch |
+| gke-retail-infra | `infra-ci.yml` | PR → plan; push `main` → apply (dev); dispatch for other envs |
 | gke-retail-application | `application-ci.yml` | Push images on `main` / `develop` |
 | gke-retail-devops | `devops-ci.yml` | Helm deploy via dispatch |
 | gke-microservices | All lane workflows | Same as split repos |
 
 ## 5. Verify WIF
 
-From a repo with secrets, re-run **Actions → infra-ci → Run workflow** (plan, dev) or open a PR touching `infra/**` and confirm job **GCP plan/apply** authenticates without `credentials.json`.
+Merge a PR with infra changes: **GCP terraform plan** on the PR, then **GCP terraform apply** on push to `main`. For qa/test/prod: **Run workflow** with the target environment.
 
 Dev outputs (after apply):
 

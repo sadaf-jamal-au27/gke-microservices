@@ -12,7 +12,7 @@ On every PR touching `infra/**`:
 
 1. **Unit** — `terraform fmt -check`, `validate` all FAST stacks, `terraform test`
 2. **Integration** — repeats unit (fast smoke)
-3. **GCP plan** — needs GitHub Environment **dev** secrets (after `github_wif` apply)
+3. **GCP terraform plan** on PRs; **terraform apply** when changes merge to **`main`** (GitHub Environment **dev**). Manual apply for other envs: **Actions → infra-ci → Run workflow**.
 
 Local:
 

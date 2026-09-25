@@ -7,10 +7,10 @@ Enable required checks on **each repo** for PRs into `main`:
 | Repo | Required checks |
 |------|-----------------|
 | **gke-microservices** | Application CI, DevOps CI, infra unit + integration, E2E CI (when paths change), Quality Gate |
-| **gke-retail-infra** | `terraform unit (fast)`, `terraform integration (fast)` |
+| **gke-retail-infra** | unit, integration, **GCP terraform plan** (PR); **GCP terraform apply** (push to main) |
 | **gke-retail-application** | Application CI |
 | **gke-retail-devops** | DevOps CI |
 
-Optional: **GCP plan/apply** on infra when Environment `dev` secrets exist.
+**GCP apply** runs on **push to `main`** (dev) or **workflow_dispatch** (any env). Requires WIF + `TF_VAR_DATABASE_PASSWORD` on that GitHub Environment.
 
 Use **workflow_dispatch** to run deploy/apply without a code push.
