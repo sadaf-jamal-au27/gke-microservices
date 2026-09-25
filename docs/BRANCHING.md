@@ -1,6 +1,6 @@
-# Branching: feature → develop → main
+# Branching: feature → develop → main (PR-only automation)
 
-**Poori design + architecture + setup:** [`docs/PLATFORM_GUIDE.md`](PLATFORM_GUIDE.md)
+**Guide:** [`docs/PLATFORM_GUIDE.md`](PLATFORM_GUIDE.md)
 
 Org: **`sadaf-jamal-au27`**. Same flow on every repo.
 
@@ -8,47 +8,52 @@ Org: **`sadaf-jamal-au27`**. Same flow on every repo.
 
 | Branch | Role |
 |--------|------|
-| **`develop`** | Integration. Feature PRs merge here first. Terraform **apply** targets GitHub Environment **`dev`**. |
-| **`main`** | Release / production gate. Only **`develop` → `main`** PRs. Apply uses GitHub Environment **`prod`**. |
-| **`feature/<name>`** | Short-lived. **Never** PR directly to `main` (except hotfix — see below). |
+| **`develop`** | Integration. Feature PRs merge here first. |
+| **`main`** | Release gate. Only **`develop` → `main`** PRs. |
+| **`feature/<name>`** | Short-lived. Open **PR → `develop`** only (no direct push to develop/main for infra). |
 
 ```text
-feature/add-vpc ──PR──► develop ──PR──► main
-         │                  │              │
-         │                  │              └─ push main → apply (env prod)
-         │                  └─ push develop → apply (env dev)
-         └─ PR → plan (env dev)
+feature/* ──PR──► develop ──PR──► main
+              │              │
+              │              └─ merge → infra-apply (push, env prod)
+              └─ merge → infra-apply (push, env dev)
+
+Every PR → infra-plan (static + GCP plan) only — merge button ke baad apply alag workflow chalti hai.
 ```
 
-## Infra CI — two workflows
+## CI — PR plan, apply on merge
 
-| Workflow | File | When it runs |
-|----------|------|----------------|
-| **Plan** | `.github/workflows/infra-plan.yml` | PR → `develop` / `main`; push to **`feature/**`**; manual |
-| **Apply** | `.github/workflows/infra-apply.yml` | Push to **`develop`** / **`main`** only (after merge); manual |
+| Step | Kya dikhega | Workflow |
+|------|-------------|----------|
+| **PR open/update** (→ `develop` or `main`) | Sirf **plan** checks | **infra-plan** |
+| **Merge PR** (same paths: `infra/**`, workflows) | **Apply** job | **infra-apply** (`pull_request: closed` + merged) |
+| **Manual re-run** | Actions → Run workflow | **infra-apply** |
 
-| Event | Workflow | GitHub Environment | Terraform |
-|-------|----------|-------------------|-----------|
-| PR → **`develop`** | infra-plan | `dev` | plan |
-| PR → **`main`** | infra-plan | `prod` | plan |
-| Push **`feature/*`** | infra-plan | `dev` | plan (early feedback) |
-| Push **`develop`** | infra-apply | `dev` | apply |
-| Push **`main`** | infra-apply | `prod` | apply |
+| PR target | After **Merge** | GitHub env | `tf_env` |
+|-----------|-----------------|------------|----------|
+| **`develop`** | apply runs | `dev` | `dev` |
+| **`main`** | apply runs | `prod` | `prod` |
 
-\*Until a real prod GCP project exists, **`prod` GitHub secrets mirror `dev`** and `TF_ENV` stays **`dev`**. When prod project is ready, set `fast/datasets/prod/env.tfvars` and use `tf_env: prod` on dispatch.
+PR band karte waqt bina merge ke apply **nahi** chalti (`if: merged == true`).
 
-## Hotfix (optional)
+Optional: Environments **`dev`** / **`prod`** → **Required reviewers** (approve before apply job runs).
 
-`hotfix/*` from **`main`** → PR **`main`**, then merge **`main`** back into **`develop`**.
+**No** push-triggered plan — sirf **PR** se plan.
 
-## Branch protection
+## Daily workflow
 
-| Branch | Rule |
-|--------|------|
-| **`develop`** | Require PR; checks: `Terraform static checks`, `Terraform plan (GCP)` |
-| **`main`** | Same checks + optional reviewer on **`prod`** environment |
+```bash
+git checkout develop && git pull
+git checkout -b feature/my-change
+# edit infra/ or fast/
+git push -u origin feature/my-change
+# GitHub: Open PR → develop → wait for infra-plan checks → merge
+# merge triggers infra-apply on develop automatically (if infra/ changed)
 
-Setup remote **`develop`** (once):
+# Or re-run: Actions → Infra Terraform Apply → branch develop, env dev
+```
+
+Setup:
 
 ```bash
 cd ~/Projects/gke-retail-infra
@@ -56,25 +61,29 @@ cd ~/Projects/gke-retail-infra
 ./scripts/github-setup-branch-protection.sh
 ```
 
-## Daily workflow
+WIF: **`docs/WIF_AND_GITHUB.md`**.
+
+## Protected branches (no direct push)
+
+**`develop`** and **`main`** must stay protected on GitHub:
+
+- **No direct `git push`** to `develop` or `main` — changes only via **Pull Request**
+- **Admins included** (`enforce_admins`) — same rule for everyone
+- Required checks on PR: `Terraform static checks`, `Terraform plan (GCP)`
+- **`main`**: at least **1 PR approval** before merge
+- **`develop`**: PR required (0 approvals by default in script — change in script if you want 1)
+
+Apply protection (both infra repos):
 
 ```bash
-git checkout develop && git pull
-git checkout -b feature/my-infra-change
-# edit fast/ or scripts/
-git push -u origin feature/my-infra-change
-# Open PR → develop → wait for plan → merge → apply on develop
-
-# Release
-# Open PR develop → main → plan (prod env) → merge → apply on main
+cd ~/Projects/gke-retail-infra
+./scripts/github-setup-branch-protection.sh
+# or: ./scripts/github-setup-branch-protection.sh gke-retail-infra gke-microservices
 ```
 
-## Other repos
+Correct flow only:
 
-| Repo | Flow |
-|------|------|
-| gke-retail-application | feature → develop → main (build CI only for now) |
-| gke-retail-devops | same |
-| gke-microservices | infra mirror; same CI idea on `infra/**` |
-
-WIF: **`docs/WIF_AND_GITHUB.md`**.
+```text
+feature/*  ──PR──►  develop  ──PR──►  main
+           (never push directly to develop or main)
+```
