@@ -1,18 +1,16 @@
 # Required GitHub status checks (branch protection)
 
-Protect **`main`** and **`develop`**. See **`docs/BRANCHING.md`**.
+Protect **`main`** only. See **`docs/BRANCHING.md`**.
 
-Enable these **required status checks** on PRs into `develop` and `main`:
+Enable required checks on **each repo** for PRs into `main`:
 
-| Check name | Workflow | Scope |
-|------------|----------|--------|
-| Application CI | `application-ci.yml` | `application/**` |
-| DevOps CI | `devops-ci.yml` | `devops/**` |
-| Infra CI / unit | `infra-ci.yml` → job `terraform unit (fast)` | `infra/**` |
-| Infra CI / integration | `infra-ci.yml` → job `terraform integration (fast)` | `infra/**` |
-| E2E CI | `e2e-ci.yml` | `testing/e2e/**` + app paths |
-| Quality Gate | `quality-gate.yml` | All PRs (summary) |
+| Repo | Required checks |
+|------|-----------------|
+| **gke-microservices** | Application CI, DevOps CI, infra unit + integration, E2E CI (when paths change), Quality Gate |
+| **gke-retail-infra** | `terraform unit (fast)`, `terraform integration (fast)` |
+| **gke-retail-application** | Application CI |
+| **gke-retail-devops** | DevOps CI |
 
-Infra **GCP plan** runs on PR when GitHub Environment `dev` secrets exist (optional until WIF is applied).
+Optional: **GCP plan/apply** on infra when Environment `dev` secrets exist.
 
-Skipped workflows (path filters) do not block merge if configured as “do not require” in GitHub; prefer requiring **Quality Gate** which runs on every PR.
+Use **workflow_dispatch** to run deploy/apply without a code push.

@@ -2,12 +2,12 @@ name: DevOps CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
     paths:
       - "devops/**"
       - ".github/workflows/devops-ci.yml"
   pull_request:
-    branches: [main, develop]
+    branches: [main]
     paths:
       - "devops/**"
       - ".github/workflows/devops-ci.yml"

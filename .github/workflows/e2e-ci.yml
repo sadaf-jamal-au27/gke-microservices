@@ -2,7 +2,7 @@ name: E2E CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
     paths:
       - "application/**"
       - "testing/e2e/**"
@@ -12,7 +12,7 @@ on:
       - "pnpm-lock.yaml"
       - ".github/workflows/e2e-ci.yml"
   pull_request:
-    branches: [main, develop]
+    branches: [main]
     paths:
       - "application/**"
       - "testing/e2e/**"

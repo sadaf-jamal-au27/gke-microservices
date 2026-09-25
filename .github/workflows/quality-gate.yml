@@ -4,7 +4,7 @@ name: Quality Gate
 
 on:
   pull_request:
-    branches: [main, develop]
+    branches: [main]
 
 permissions:
   contents: read
@@ -26,7 +26,7 @@ jobs:
             • Infra CI        — infra/** (unit + integration; GCP plan if secrets set)
             • E2E CI          — application + testing/e2e (smoke)
 
-          Branching: see docs/BRANCHING.md (develop → integration, main → prod).
+          Branching: see docs/BRANCHING.md (feature/* → PR → main).
           See testing/gates/REQUIRED_CHECKS.md
           EOF
 

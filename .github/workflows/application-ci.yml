@@ -2,7 +2,7 @@ name: Application CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
     paths:
       - "application/**"
       - "package.json"
@@ -12,7 +12,7 @@ on:
       - "docker-compose.yml"
       - ".github/workflows/application-ci.yml"
   pull_request:
-    branches: [main, develop]
+    branches: [main]
     paths:
       - "application/**"
       - "package.json"
@@ -41,19 +41,19 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Build shared + BFF + storefront
+      - name: Build shared packages
         run: |
+          pnpm --filter @retail/automobile-db build
+          pnpm --filter @retail/automobile-core build
           pnpm --filter @retail/service-core build
           pnpm --filter @retail/bff-api-service build
           pnpm --filter @retail/storefront build
-      - name: Build sample automobile services
-        run: |
           pnpm --filter @retail/vehicle-catalog-service build
           pnpm --filter @retail/auto-cart-service build
 
   publish-images:
     name: Push images (Artifact Registry)
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment: dev
