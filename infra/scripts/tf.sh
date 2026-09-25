@@ -72,6 +72,10 @@ case "${ACTION}" in
     if [[ -n "${TF_PLAN_OUT:-}" ]]; then
       extra+=(-out="${TF_PLAN_OUT}")
     fi
+    # CI plan is read-only; -lock=false avoids stale locks when a run is cancelled mid-plan.
+    if [[ "${TF_PLAN_LOCK:-true}" == "false" ]]; then
+      extra+=(-lock=false)
+    fi
     terraform plan "${VAR_ARGS[@]}" "${extra[@]}"
     ;;
   apply)
