@@ -51,7 +51,7 @@ APIs → storage/WIF → network → GKE → Cloud SQL → Pub/Sub
 
 (`cloudrun` is optional later.)
 
-**Platform stacks (GKE, SQL, Pub/Sub) need `network` applied first.** Until `network` is in state, CI **skips** their plan (not a bug). After bootstrap + network apply, full plans run.
+**Platform stacks (GKE, SQL, Cloud Run)** use Terraform `try()` + `module { count = … }` so **plan does not fail** before `network` is applied — they plan **0 resources** until dependencies exist in remote state. After **`network apply`**, re-plan shows real GKE/SQL changes.
 
 ### First apply (order matters)
 
