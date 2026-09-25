@@ -10,6 +10,13 @@
 
 Monorepo (optional archive): https://github.com/sadaf-jamal-au27/gke-microservices
 
+## Rollout order
+
+1. **`gke-retail-infra`** — VPC, GKE, Cloud SQL, Pub/Sub, WIF (no application code). CI applies stacks through **`pubsub`** only.
+2. **`gke-retail-application`** — clone when infra is green; build/push images later.
+3. **`gke-retail-devops`** — Helm deploy after cluster + images.
+4. **`cloudrun` stack** (optional) — `./scripts/tf.sh dev cloudrun apply` only after BFF image exists in Artifact Registry.
+
 ## Local remotes
 
 ```bash
@@ -40,7 +47,7 @@ export TF_VAR_DATABASE_PASSWORD='your-dev-db-password'
 ./scripts/github-set-wif-secrets.sh dev
 ```
 
-See **`docs/BRANCHING.md`** and **`.github/GITHUB_SETUP.md`**.
+See **`docs/BRANCHING.md`** and **`docs/WIF_AND_GITHUB.md`**.
 
 ## Re-split from monorepo
 

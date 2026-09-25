@@ -19,3 +19,13 @@ variable "github_org" { type = string }
 variable "github_repos" {
   type = list(string)
 }
+
+variable "pool_id" {
+  type    = string
+  default = "github-pool"
+}
+
+variable "provider_id" {
+  type    = string
+  default = "github-provider"
+}

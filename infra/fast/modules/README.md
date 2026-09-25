@@ -6,7 +6,7 @@ Live Terraform roots: `infra/fast/stages/<stage>/<stack>/`
 
 | File | Purpose |
 |------|---------|
-| `backend.tf` | `backend "gcs" {}` only |
+| `backend.tf` | `backend "gcs" {}` only — see `fast/backends/<env>/<stack>.hcl` |
 | `versions.tf` | Terraform + provider pins |
 | `provider.tf` | Google providers |
 | `variables.tf` | Inputs |

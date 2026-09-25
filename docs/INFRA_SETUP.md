@@ -8,11 +8,13 @@ Pure Terraform **Fabric FAST** landing zone under `infra/fast/`. No Terragrunt.
 
 ## Phase 0 — CI (GitHub)
 
+Branching: **`feature/*` → `develop` → `main`**. Full picture: **`docs/PLATFORM_GUIDE.md`**.
+
 On every PR touching `infra/**`:
 
-1. **Unit** — `terraform fmt -check`, `validate` all FAST stacks, `terraform test`
-2. **Integration** — repeats unit (fast smoke)
-3. **GCP terraform plan** on PRs; **terraform apply** when changes merge to **`main`** (GitHub Environment **dev**). Manual apply for other envs: **Actions → infra-ci → Run workflow**.
+1. **Terraform static checks** — fmt, validate all stacks, `terraform test` (mock providers)
+2. **Terraform plan (GCP)** — remote state init + plan all stacks; artifacts on PR
+3. **Terraform apply (GCP)** — on merge to `develop`/`main`: plan then apply saved plans (GitHub env **dev** / **prod**)
 
 Local:
 
@@ -102,7 +104,14 @@ node infra/scripts/generate-fast-stages.mjs
 Stacks and dependencies:
 
 ```text
-project_services → cloud_storage → github_wif → network → gke → cloudsql → pubsub → cloudrun
+project_services → cloud_storage → github_wif → network → gke → cloudsql → pubsub
+```
+
+**Not in default apply:** `cloudrun` (needs BFF/app image from **gke-retail-application**). Apply later:
+
+```bash
+./infra/scripts/tf.sh dev cloudrun plan
+./infra/scripts/tf.sh dev cloudrun apply
 ```
 
 Each stack has its own state prefix: `gs://…/{env}/{stack}/`.
@@ -136,7 +145,7 @@ export TF_VAR_database_password='…'
 | `gke` | Autopilot/standard cluster `retail-dev`, workload SA |
 | `cloudsql` | PostgreSQL `retail-dev-pg` |
 | `pubsub` | Topics for async events |
-| `cloudrun` | Optional Cloud Run jobs/services |
+| `cloudrun` | **Phase 2** — BFF on Cloud Run (after application images; not in `tf-apply-all.sh`) |
 
 After `github_wif` apply:
 

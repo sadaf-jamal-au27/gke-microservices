@@ -1,54 +1,74 @@
-# Branching strategy
+# Branching: feature → develop → main
 
-Use **GitHub Flow** on every repo. Do **not** maintain a long-lived `develop` branch unless you explicitly want one later.
+**Poori design + architecture + setup:** [`docs/PLATFORM_GUIDE.md`](PLATFORM_GUIDE.md)
+
+Org: **`sadaf-jamal-au27`**. Same flow on every repo.
 
 ## Branches
 
-| Branch | Purpose |
-|--------|---------|
-| **`main`** | Default branch. All merges land here. CI runs on every push and PR. |
-| **`feature/<name>`** | Short-lived work. Open a PR into **`main`**. |
+| Branch | Role |
+|--------|------|
+| **`develop`** | Integration. Feature PRs merge here first. Terraform **apply** targets GitHub Environment **`dev`**. |
+| **`main`** | Release / production gate. Only **`develop` → `main`** PRs. Apply uses GitHub Environment **`prod`**. |
+| **`feature/<name>`** | Short-lived. **Never** PR directly to `main` (except hotfix — see below). |
 
 ```text
-feature/checkout-fix ──PR──► main (plan) ──merge──► push main (apply to GCP dev)
+feature/add-vpc ──PR──► develop ──PR──► main
+         │                  │              │
+         │                  │              └─ push main → apply (env prod)
+         │                  └─ push develop → apply (env dev)
+         └─ PR → plan (env dev)
 ```
 
-## Repos (each has its **own** pipeline)
+## Infra CI (`gke-retail-infra`)
 
-| Repo | Workflow | Runs when |
-|------|----------|-----------|
-| [gke-retail-infra](https://github.com/sadaf-jamal-au27/gke-retail-infra) | `infra-ci.yml` | PR → **plan**; merge/push **`main`** → **apply** (dev); dispatch for other envs |
-| [gke-retail-application](https://github.com/sadaf-jamal-au27/gke-retail-application) | `application-ci.yml` | Push/PR to **`main`** |
-| [gke-retail-devops](https://github.com/sadaf-jamal-au27/gke-retail-devops) | `devops-ci.yml` | Push/PR to **`main`** |
-| [gke-microservices](https://github.com/sadaf-jamal-au27/gke-microservices) | All lane workflows | Push/PR to **`main`** (optional monorepo) |
+| Event | GitHub Environment | Terraform `TF_ENV` | Action |
+|-------|-------------------|-------------------|--------|
+| PR → **`develop`** | `dev` | `dev` | plan |
+| PR → **`main`** (from develop) | `prod` | `dev`* | plan |
+| Push **`develop`** | `dev` | `dev` | apply |
+| Push **`main`** | `prod` | `dev`* | apply |
+| Run workflow | you choose | you choose | plan / apply |
 
-**Split repos are canonical for teams.** The monorepo is optional; do not clone infra *inside* the monorepo — use `~/Projects/gke-retail-infra` only.
+\*Until a real prod GCP project exists, **`prod` GitHub secrets mirror `dev`** and `TF_ENV` stays **`dev`**. When prod project is ready, set `fast/datasets/prod/env.tfvars` and use `tf_env: prod` on dispatch.
 
-## GitHub Environments
+## Hotfix (optional)
 
-| Environment | When |
-|-------------|------|
-| **`dev`** | GCP WIF + Terraform plan/apply + image push (today’s single GCP project) |
-| **`prod`** | Add when you have a prod GCP project |
+`hotfix/*` from **`main`** → PR **`main`**, then merge **`main`** back into **`develop`**.
 
-Set secrets once per repo with `./scripts/github-set-wif-secrets.sh dev` from **gke-retail-infra** (see `.github/GITHUB_SETUP.md`).
+## Branch protection
 
-## Branch protection (recommended)
+| Branch | Rule |
+|--------|------|
+| **`develop`** | Require PR; checks: `Terraform static checks`, `Terraform plan (GCP)` |
+| **`main`** | Same checks + optional reviewer on **`prod`** environment |
 
-On **`main`** only:
+Setup:
 
-- Require pull request before merge  
-- Require status checks that match **this repo’s** workflow (see `testing/gates/REQUIRED_CHECKS.md` in monorepo)
+```bash
+cd ~/Projects/gke-retail-infra
+./scripts/github-setup-branch-protection.sh
+```
 
-## Deploy
+## Daily workflow
 
-- **Infra:** PR → validate + **terraform plan**; merge to **`main`** → validate + **terraform apply** (GitHub Environment **dev**). Manual **Run workflow** for qa/test/prod when ready.
-- **DevOps:** Actions → `devops-ci` → **Run workflow** → deploy **dev**  
-- **Application:** Push to **`main`** builds; image push uses environment **dev**
+```bash
+git checkout develop && git pull
+git checkout -b feature/my-infra-change
+# edit fast/ or scripts/
+git push -u origin feature/my-infra-change
+# Open PR → develop → wait for plan → merge → apply on develop
 
-## If CI “does not run”
+# Release
+# Open PR develop → main → plan (prod env) → merge → apply on main
+```
 
-1. Confirm you pushed to **`main`** (not only a local branch).  
-2. Confirm path filters: infra changes must touch `fast/**` or `scripts/**` in **gke-retail-infra**.  
-3. Use **workflow_dispatch** on the workflow page to force a run.  
-4. Split repos still on the **initial commit** will fail until you **push** the CI fixes from your laptop (`~/Projects/gke-retail-infra`, not the nested clone under the monorepo).
+## Other repos
+
+| Repo | Flow |
+|------|------|
+| gke-retail-application | feature → develop → main (build CI only for now) |
+| gke-retail-devops | same |
+| gke-microservices | infra mirror; same CI idea on `infra/**` |
+
+WIF: **`docs/WIF_AND_GITHUB.md`**.

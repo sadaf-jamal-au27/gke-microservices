@@ -9,7 +9,8 @@ infra/fast/datasets/dev/env.tfvars
 infra/fast/stages/0-bootstrap|1-network|2-platform/<stack>/
 ```
 
-Apply order: `project_services` → `cloud_storage` → `github_wif` → `network` → `gke` → `cloudsql` → `pubsub` → `cloudrun`
+Apply order: `project_services` → `cloud_storage` → `github_wif` → `network` → `gke` → `cloudsql` → `pubsub`  
+(`cloudrun` is optional — apply manually after the application repo pushes images.)
 
 ## Bootstrap
 
@@ -36,15 +37,20 @@ node infra/scripts/generate-fast-stages.mjs
 
 Workflow [`.github/workflows/infra-ci.yml`](../.github/workflows/infra-ci.yml):
 
-1. **unit** — `fmt -check`, `validate`, plan (bootstrap stacks only)
-2. **integration** — unit + `terraform test`
-3. **terraform-live** — GCP `plan` on PR / manual `apply` (needs GitHub Environment secrets)
+1. **Terraform static checks** — `fmt`, `validate`, `terraform test` (no GCP)
+2. **Terraform plan (GCP)** — PR / manual: remote `init` + plan all stacks, upload plan artifacts
+3. **Terraform apply (GCP)** — push `develop`/`main`: plan → apply saved plans in one job
+
+```bash
+./infra/scripts/test-static.sh dev          # local
+./infra/scripts/tf-plan-all.sh dev          # local plan (GCP auth)
+./infra/scripts/ci-gcp-plan.sh dev          # same as CI plan job
+```
+
+Guide: [`docs/PLATFORM_GUIDE.md`](../docs/PLATFORM_GUIDE.md), [`docs/INFRA_SETUP.md`](../docs/INFRA_SETUP.md)
 
 ## Tests (local)
 
 ```bash
-./infra/scripts/test-unit.sh dev
-./infra/scripts/test-integration.sh dev
+./infra/scripts/test-static.sh dev
 ```
-
-Guide: [`docs/INFRA_SETUP.md`](../docs/INFRA_SETUP.md)
