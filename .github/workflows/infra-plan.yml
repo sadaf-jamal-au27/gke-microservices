@@ -153,6 +153,7 @@ jobs:
           chmod +x scripts/tf.sh scripts/tf-plan-all.sh
           mkdir -p "${TF_PLAN_DIR}"
           ./scripts/tf-plan-all.sh "${TF_ENV}"
+          # tf-plan-all exits 0 when plans succeed (including "changes pending").
 
       - name: Upload plan artifacts
         if: always()
