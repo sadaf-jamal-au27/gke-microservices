@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Local / ad-hoc only. GitHub Actions uses .github/actions/terraform-fast (plan + apply).
 # CI deploy: plan to files, then apply those exact plans (same job — no blind apply).
 set -euo pipefail
 

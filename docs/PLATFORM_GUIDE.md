@@ -185,30 +185,28 @@ Detail: `docs/BRANCHING.md`.
 
 ---
 
-## 7. CI pipeline — `infra-ci.yml` (enterprise-style)
+## 7. CI — `infra-plan.yml` / `infra-apply.yml` (Terraform-first)
 
-Typical company pattern: **static checks without secrets → remote-state plan on PR → plan-then-apply on merge** (no duplicate fake “integration” job).
+Workflows call **HashiCorp Terraform CLI** via **`.github/actions/terraform-fast`** (step names: `terraform fmt -check`, `terraform validate`, `terraform test`, `terraform init`, `terraform plan`, `terraform apply`). Shell scripts under `infra/scripts/` are for **local laptops only** (`tf.sh`, `test-static.sh`).
 
 | Job | Name (required check) | Credentials | What it does |
 |-----|----------------------|-------------|--------------|
-| **static** | `Terraform static checks` | None | `fmt -check`, `validate` every stack, `terraform test` (unit + module mocks) |
-| **terraform-plan** | `Terraform plan (GCP)` | WIF | `terraform init` (GCS backend) + **plan all stacks**, save `.tfplan` artifacts |
-| **terraform-apply** | `Terraform apply (GCP)` | WIF + env gate | Same job: **plan to files → apply those plans** (not blind apply) |
+| **static** | `Terraform static checks` | None | `terraform fmt -check`, `validate` per stack, `terraform test` |
+| **terraform-plan** | `Terraform plan (GCP)` | WIF | `terraform init` + `plan` per stack (GCS backend), upload `.tfplan` |
+| **terraform-apply** | `Terraform apply (GCP)` | WIF + env gate | Manual dispatch: plan → `terraform apply` saved plans |
 
-Trigger: changes under `infra/**` (monorepo) or `fast/**`, `scripts/**`, `tests/**` (gke-retail-infra).
+Trigger: `infra/**` + `.github/**` (monorepo) or `fast/**`, `tests/**` (gke-retail-infra).
 
 | Event | Jobs | GitHub Environment | Terraform |
 |-------|------|-------------------|-----------|
 | PR → `develop` / `main` | static + **plan** | `dev` or `prod` (by base branch) | remote plan |
-| Push **develop** / **main** | static + **apply** | matching env | plan → apply |
-| Manual dispatch | plan or apply | you choose | you choose |
+| Manual **infra-apply** | plan + apply | you choose | plan → apply |
+| Manual **infra-plan** dispatch | static + plan | you choose | remote plan |
 
-Scripts:
+Local (same checks as CI static):
 
-- Local static: `./infra/scripts/test-static.sh dev`
-- Local plan all: `./infra/scripts/tf-plan-all.sh dev` (needs GCP login)
-- CI plan: `./infra/scripts/ci-gcp-plan.sh dev`
-- CI deploy: `./infra/scripts/ci-gcp-apply.sh dev`
+- `./infra/scripts/test-static.sh dev`
+- Per stack: `./infra/scripts/tf.sh dev gke plan` (needs GCP login)
 
 Branch protection should require **`Terraform static checks`** and **`Terraform plan (GCP)`** on PRs:
 

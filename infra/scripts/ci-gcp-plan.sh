@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Local / ad-hoc only. GitHub Actions uses .github/actions/terraform-fast (terraform init/plan).
 # CI / release gate: remote state init + plan all stacks (WIF auth must be active).
 set -euo pipefail
 
