@@ -25,7 +25,8 @@ echo "GCP project:         ${PROJECT_ID}"
 if command -v gcloud >/dev/null; then
   ACTIVE="$(gcloud config get-value project 2>/dev/null || true)"
   echo "gcloud project:      ${ACTIVE}"
-  STATE_BUCKET="${PROJECT_ID}-retail-tfstate-${ENV}"
+  STATE_BUCKET="$(grep '^state_bucket' "${ENV_TFVARS}" | head -1 | cut -d'"' -f2)"
+  STATE_BUCKET="${STATE_BUCKET:-${PROJECT_ID}-retail-tfstate-${ENV}}"
   if gcloud storage buckets describe "gs://${STATE_BUCKET}" >/dev/null 2>&1; then
     echo "OK: state bucket gs://${STATE_BUCKET}"
   else
