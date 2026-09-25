@@ -1,5 +1,8 @@
 # FAST / Fabric landing zone structure
 
+> **New here?** Read [`INFRA_SIMPLE.md`](INFRA_SIMPLE.md) first — plain language + one diagram.  
+> This file is the detailed reference.
+
 This repo uses an **adapted** [Cloud Foundation Fabric FAST](https://github.com/GoogleCloudPlatform/cloud-foundation-fabric/tree/master/fast) layout for **one GCP project per environment** (not full org multi-project FAST).
 
 Upstream FAST uses many stages (`0-bootstrap`, `1-resman`, `2-networking`, …) and **`*.auto.tfvars.json`** files copied from a central output bucket. We use a **smaller stage model** and **`terraform_remote_state`** between stacks instead — valid for single-project retail, but the **file layout must still be disciplined**.

@@ -361,6 +361,7 @@ kubectl get nodes
 | File | Use when |
 |------|----------|
 | **This file (`PLATFORM_GUIDE.md`)** | Poori design + end-to-end steps |
+| `docs/INFRA_SIMPLE.md` | **Start here** — FAST in plain language (not full Fabric) |
 | `docs/FAST_STRUCTURE.md` | FAST/Fabric folders, datasets vs stages, dependencies |
 | `docs/BRANCHING.md` | Sirf Git flow table |
 | `docs/WIF_AND_GITHUB.md` | WIF commands cheat sheet |
