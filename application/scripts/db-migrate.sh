@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 export PGPASSWORD="${DB_PASSWORD:-retail}"
 HOST="${DB_HOST:-127.0.0.1}"
 PORT="${DB_PORT:-5432}"
@@ -19,7 +19,7 @@ wait_db() {
 }
 
 wait_db
-for f in "$ROOT/platform/db/migrations/"*.sql; do
+for f in "$ROOT/devops/db/migrations/"*.sql; do
   echo "Applying $(basename "$f")"
   psql -h "$HOST" -p "$PORT" -U "$USER" -d "$DB" -v ON_ERROR_STOP=1 -f "$f"
 done

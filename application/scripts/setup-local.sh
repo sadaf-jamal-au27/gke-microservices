@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # One-time / repeat: Postgres + SQL migrations for local dev
 set -euo pipefail
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
 
 export DB_HOST="${DB_HOST:-127.0.0.1}"
@@ -30,8 +30,8 @@ for i in {1..40}; do
 done
 
 echo "→ Migrations"
-docker exec -i retail-postgres psql -U retail_app -d retail -v ON_ERROR_STOP=1 < "$ROOT/platform/db/migrations/001_core.sql" 2>/dev/null || true
-docker exec -i retail-postgres psql -U retail_app -d retail -v ON_ERROR_STOP=1 < "$ROOT/platform/db/migrations/002_automobile.sql"
+docker exec -i retail-postgres psql -U retail_app -d retail -v ON_ERROR_STOP=1 < "$ROOT/devops/db/migrations/001_core.sql" 2>/dev/null || true
+docker exec -i retail-postgres psql -U retail_app -d retail -v ON_ERROR_STOP=1 < "$ROOT/devops/db/migrations/002_automobile.sql"
 
 echo "→ Build shared packages"
 corepack enable 2>/dev/null || true

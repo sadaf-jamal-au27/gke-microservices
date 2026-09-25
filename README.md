@@ -9,21 +9,24 @@ Production-style **retail** reference implementation with **51 microservices**, 
 | Architecture | [`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md) |
 | Security audit | [`docs/security/SECURITY-AUDIT.md`](docs/security/SECURITY-AUDIT.md) |
 | Deploy runbook | [`docs/runbooks/RUNBOOK-DEPLOY.md`](docs/runbooks/RUNBOOK-DEPLOY.md) |
-| 51 backend services | [`services/`](services/) |
-| Shared runtime | [`packages/service-core`](packages/service-core) |
-| Helm (all services) | [`platform/helm/retail-platform`](platform/helm/retail-platform) |
-| Terraform (pure) | [`infra/README.md`](infra/README.md) — `terraform/live/{dev,qa,test,prod}/` |
-| Helm commands | [`docs/runbooks/RUNBOOK-HELM.md`](docs/runbooks/RUNBOOK-HELM.md) |
-| SQL schema | [`platform/db/migrations`](platform/db/migrations) |
-| React storefront | [`apps/storefront`](apps/storefront) |
-| React admin | [`apps/admin`](apps/admin) |
+| Repo layout | [`docs/REPO_STRUCTURE.md`](docs/REPO_STRUCTURE.md) |
+| Application | [`application/`](application/) — services, apps, packages |
+| DevOps | [`devops/`](devops/) — Helm, migrations, deploy scripts |
+| Infrastructure | [`infra/README.md`](infra/README.md) — Fabric FAST |
+| Testing & gates | [`testing/`](testing/) — E2E smoke + required checks |
+| 51 backend services | [`application/services/`](application/services/) |
+| Shared runtime | [`application/packages/service-core`](application/packages/service-core) |
+| Helm | [`devops/helm/retail-platform`](devops/helm/retail-platform) |
+| SQL schema | [`devops/db/migrations`](devops/db/migrations) |
+| React storefront | [`application/apps/storefront`](application/apps/storefront) |
+| React admin | [`application/apps/admin`](application/apps/admin) |
 
 ## Automobile platform (real PostgreSQL + 10 APIs)
 
-**Not in-memory mock** — vehicles, VIN inventory, bookings, orders, and trade-in estimates persist in **PostgreSQL** (`platform/db/migrations/002_automobile.sql`).
+**Not in-memory mock** — vehicles, VIN inventory, bookings, orders, and trade-in estimates persist in **PostgreSQL** (`devops/db/migrations/002_automobile.sql`).
 
 ```bash
-chmod +x scripts/dev-automobile.sh scripts/db-migrate.sh
+chmod +x application/scripts/dev-automobile.sh application/scripts/db-migrate.sh
 pnpm dev:auto   # Docker Postgres + migrate + 10 services + BFF + React UI
 ```
 
@@ -31,10 +34,22 @@ Open **http://localhost:5173** — AutoDrive Motors storefront (DM Sans / Instru
 
 | Layer | Path |
 |-------|------|
-| DB migrations | `platform/db/migrations/` |
-| Repositories | `packages/automobile-db` |
-| 10 microservices | `services/vehicle-catalog-service`, … |
-| Frontend | `apps/storefront` |
+| DB migrations | `devops/db/migrations/` |
+| Repositories | `application/packages/automobile-db` |
+| 10 microservices | `application/services/vehicle-catalog-service`, … |
+| Frontend | `application/apps/storefront` |
+
+## CI pipelines
+
+| Workflow | Lane |
+|----------|------|
+| `application-ci.yml` | Build apps & sample services |
+| `devops-ci.yml` | Helm lint/template (+ manual deploy) |
+| `infra-ci.yml` | Terraform unit/integration/GCP |
+| `e2e-ci.yml` | Smoke E2E |
+| `quality-gate.yml` | PR gate summary |
+
+See [`testing/gates/REQUIRED_CHECKS.md`](testing/gates/REQUIRED_CHECKS.md).
 
 ## Quick local demo (legacy generic retail)
 

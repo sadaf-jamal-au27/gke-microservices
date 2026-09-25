@@ -2,8 +2,8 @@
 set -euo pipefail
 
 ENV="${1:?Usage: helm-deploy.sh <dev|qa|test|prod>}"
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-CHART="${ROOT}/platform/helm/retail-platform"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+CHART="${ROOT}/devops/helm/retail-platform"
 
 VALUES_ENV="${CHART}/values-${ENV}.yaml"
 if [[ ! -f "${VALUES_ENV}" ]]; then

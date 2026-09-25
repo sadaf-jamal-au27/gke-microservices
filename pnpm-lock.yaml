@@ -12,7 +12,7 @@ importers:
         specifier: ^9.1.2
         version: 9.2.4
 
-  apps/admin:
+  application/apps/admin:
     dependencies:
       react:
         specifier: ^19.0.0
@@ -37,7 +37,7 @@ importers:
         specifier: ^6.0.6
         version: 6.4.3(@types/node@22.20.4)(tsx@4.23.15)
 
-  apps/storefront:
+  application/apps/storefront:
     dependencies:
       react:
         specifier: ^19.0.0
@@ -65,13 +65,13 @@ importers:
         specifier: ^6.0.6
         version: 6.4.3(@types/node@22.20.4)(tsx@4.23.15)
 
-  packages/automobile-core:
+  application/packages/automobile-core:
     devDependencies:
       typescript:
         specifier: ^5.7.3
         version: 5.9.3
 
-  packages/automobile-db:
+  application/packages/automobile-db:
     dependencies:
       pg:
         specifier: ^8.13.1
@@ -84,7 +84,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  packages/service-core:
+  application/packages/service-core:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -121,7 +121,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/analytics-event-service:
+  application/services/analytics-event-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -149,7 +149,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/audit-log-service:
+  application/services/audit-log-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -177,7 +177,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/auth-service:
+  application/services/auth-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -205,38 +205,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/auto-cart-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/automobile-db':
-        specifier: workspace:*
-        version: link:../../packages/automobile-db
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/auto-finance-service:
+  application/services/auto-cart-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -267,7 +236,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/auto-order-service:
+  application/services/auto-finance-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -298,7 +267,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/auto-pricing-service:
+  application/services/auto-order-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -329,259 +298,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/bff-api-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/brand-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/cart-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/catalog-search-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/category-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/checkout-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/content-cms-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/coupon-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/customer-profile-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/dealership-service:
+  application/services/auto-pricing-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -612,7 +329,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/delivery-service:
+  application/services/bff-api-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -640,7 +357,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/email-service:
+  application/services/brand-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -668,7 +385,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/exchange-service:
+  application/services/cart-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -696,7 +413,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/fraud-detection-service:
+  application/services/catalog-search-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -724,7 +441,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/gift-card-service:
+  application/services/category-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -752,7 +469,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/integration-hub-service:
+  application/services/checkout-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -780,7 +497,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/inventory-service:
+  application/services/content-cms-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -808,7 +525,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/invoice-service:
+  application/services/coupon-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -836,7 +553,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/loyalty-service:
+  application/services/customer-profile-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -864,539 +581,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/media-asset-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/notification-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/order-fulfillment-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/order-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/payment-gateway-adapter:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/payment-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/pickup-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/pricing-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/procurement-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/product-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/promotion-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/push-notification-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/rating-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/recommendation-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/refund-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/reporting-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/returns-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/review-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/role-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/service-appointment-service:
+  application/services/dealership-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1427,7 +612,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/session-service:
+  application/services/delivery-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1455,7 +640,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/shipping-service:
+  application/services/email-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1483,7 +668,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/sms-service:
+  application/services/exchange-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1511,7 +696,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/store-locator-service:
+  application/services/fraud-detection-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1539,7 +724,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/subscription-service:
+  application/services/gift-card-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1567,7 +752,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/supplier-service:
+  application/services/integration-hub-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1595,7 +780,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/tax-service:
+  application/services/inventory-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1623,7 +808,595 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/test-drive-service:
+  application/services/invoice-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/loyalty-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/media-asset-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/notification-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/order-fulfillment-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/order-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/payment-gateway-adapter:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/payment-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/pickup-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/pricing-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/procurement-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/product-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/promotion-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/push-notification-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/rating-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/recommendation-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/refund-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/reporting-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/returns-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/review-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/role-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/service-appointment-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1654,7 +1427,203 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/trade-in-service:
+  application/services/session-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/shipping-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/sms-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/store-locator-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/subscription-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/supplier-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/tax-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/test-drive-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1685,35 +1654,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/user-service:
-    dependencies:
-      '@fastify/cors':
-        specifier: ^10.0.2
-        version: 10.1.0
-      '@fastify/helmet':
-        specifier: ^13.0.1
-        version: 13.1.1
-      '@fastify/rate-limit':
-        specifier: ^10.2.2
-        version: 10.3.0
-      '@retail/service-core':
-        specifier: workspace:*
-        version: link:../../packages/service-core
-      fastify:
-        specifier: ^5.2.1
-        version: 5.12.5
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.5
-        version: 22.20.4
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.15
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  services/vehicle-catalog-service:
+  application/services/trade-in-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1744,7 +1685,35 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/vehicle-inventory-service:
+  application/services/user-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/vehicle-catalog-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1775,7 +1744,38 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/warehouse-service:
+  application/services/vehicle-inventory-service:
+    dependencies:
+      '@fastify/cors':
+        specifier: ^10.0.2
+        version: 10.1.0
+      '@fastify/helmet':
+        specifier: ^13.0.1
+        version: 13.1.1
+      '@fastify/rate-limit':
+        specifier: ^10.2.2
+        version: 10.3.0
+      '@retail/automobile-db':
+        specifier: workspace:*
+        version: link:../../packages/automobile-db
+      '@retail/service-core':
+        specifier: workspace:*
+        version: link:../../packages/service-core
+      fastify:
+        specifier: ^5.2.1
+        version: 5.12.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.20.4
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.15
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  application/services/warehouse-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1803,7 +1803,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/webhook-dispatcher-service:
+  application/services/webhook-dispatcher-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2
@@ -1831,7 +1831,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
-  services/wishlist-service:
+  application/services/wishlist-service:
     dependencies:
       '@fastify/cors':
         specifier: ^10.0.2

@@ -7,16 +7,16 @@ REGISTRY="${REGION}-docker.pkg.dev/${PROJECT_ID}/retail"
 
 gcloud auth configure-docker "${REGION}-docker.pkg.dev" --quiet
 
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
 
 pnpm install
 pnpm --filter @retail/service-core build
 
-for dir in services/*/; do
+for dir in application/services/*/; do
   name="$(basename "$dir")"
   echo "Building ${name}..."
-  docker build -f "services/${name}/Dockerfile" -t "${REGISTRY}/${name}:1.0.0" .
+  docker build -f "application/services/${name}/Dockerfile" -t "${REGISTRY}/${name}:1.0.0" .
   docker push "${REGISTRY}/${name}:1.0.0"
 done
 

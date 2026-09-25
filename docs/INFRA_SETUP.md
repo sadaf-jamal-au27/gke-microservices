@@ -1,8 +1,27 @@
 # Infrastructure setup (GCP + Terraform + GKE + Helm)
 
-Pure Terraform live stacks under `infra/terraform/live/<env>/`. No Terragrunt.
+Pure Terraform **Fabric FAST** landing zone under `infra/fast/`. No Terragrunt.
 
 **Your dev project (configured):** `ai-rag-agent-project` · region `asia-south1`
+
+---
+
+## Phase 0 — CI (GitHub)
+
+On every PR touching `infra/**`:
+
+1. **Unit** — `terraform fmt -check`, `validate` all FAST stacks, `terraform test`
+2. **Integration** — repeats unit (fast smoke)
+3. **GCP plan** — needs GitHub Environment **dev** secrets (after `github_wif` apply)
+
+Local:
+
+```bash
+./infra/scripts/test-unit.sh dev
+./infra/scripts/test-integration.sh dev
+```
+
+Workflow: `.github/workflows/infra-ci.yml`
 
 ---
 
@@ -33,18 +52,30 @@ State bucket: `gs://ai-rag-agent-project-retail-tfstate-dev`
 
 ## Phase 2 — Edit config before apply
 
-### 2.1 `env.tfvars` (per environment)
+### 2.1 GitHub WIF (per environment)
 
-File: `infra/terraform/live/dev/env.tfvars`
-
-Set GitHub org/repo for **Workload Identity Federation** (GitHub Actions → GCP):
+File: `infra/fast/datasets/dev/github_wif.tfvars` (loaded only for the `github_wif` stack)
 
 ```hcl
-github_org  = "your-github-username-or-org"
-github_repo = "gke-microservices"
+github_org = "sadaf-jamal-au27"
+github_repos = [
+  "gke-retail-infra",
+  "gke-retail-application",
+  "gke-retail-devops",
+  "gke-microservices",
+]
 ```
 
-If you skip WIF for now, you can still apply other stacks locally with your user credentials; apply `github_wif` only after these are real values.
+Shared project/region live in `infra/fast/datasets/dev/env.tfvars` (no GitHub keys there).
+
+After apply, sync secrets to all repos:
+
+```bash
+export TF_VAR_DATABASE_PASSWORD='same-as-cloudsql'
+./infra/scripts/github-set-wif-secrets.sh dev
+```
+
+Branching and environment rules: **`docs/BRANCHING.md`**. Details: **`.github/GITHUB_SETUP.md`**.
 
 ### 2.2 Cloud SQL password
 
@@ -61,7 +92,7 @@ Replace `REPLACE_GCP_*` project IDs in each env’s `env.tfvars`, run bootstrap 
 Regenerate stack folders after module changes:
 
 ```bash
-node infra/scripts/generate-tf-live.mjs
+node infra/scripts/generate-fast-stages.mjs
 ```
 
 ---
@@ -151,11 +182,11 @@ Create Artifact Registry repo if needed, then build/push service images referenc
 Automobile demo (10 services + BFF) — use `services.automobile-10.yaml` if you extend the script, or:
 
 ```bash
-helm upgrade --install retail-dev platform/helm/retail-platform \
+helm upgrade --install retail-dev devops/helm/retail-platform \
   --namespace retail-dev --create-namespace \
-  -f platform/helm/retail-platform/values.yaml \
-  -f platform/helm/retail-platform/values-dev.yaml \
-  -f platform/helm/retail-platform/services.automobile-10.yaml \
+  -f devops/helm/retail-platform/values.yaml \
+  -f devops/helm/retail-platform/values-dev.yaml \
+  -f devops/helm/retail-platform/services.automobile-10.yaml \
   --wait --timeout 20m
 ```
 

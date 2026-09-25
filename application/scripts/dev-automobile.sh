@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
 
 export DB_HOST="${DB_HOST:-127.0.0.1}"
@@ -18,10 +18,10 @@ echo "Starting PostgreSQL (Docker)…"
 docker compose up -d postgres
 
 if command -v psql >/dev/null 2>&1; then
-  chmod +x scripts/db-migrate.sh
-  ./scripts/db-migrate.sh
+  chmod +x application/scripts/db-migrate.sh
+  ./application/scripts/db-migrate.sh
 else
-  echo "Install psql (brew install libpq) then run: ./scripts/db-migrate.sh"
+  echo "Install psql (brew install libpq) then run: ./application/scripts/db-migrate.sh"
 fi
 
 pnpm install

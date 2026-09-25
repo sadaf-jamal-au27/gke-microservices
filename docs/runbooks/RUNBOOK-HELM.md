@@ -1,49 +1,49 @@
 # Helm commands (dev / qa / test / prod)
 
-Chart path: `platform/helm/retail-platform`
+Chart path: `devops/helm/retail-platform`
 
 ## One-command deploy per environment
 
 ```bash
-./scripts/helm-deploy.sh dev
-./scripts/helm-deploy.sh qa
-./scripts/helm-deploy.sh test
-./scripts/helm-deploy.sh prod
+./devops/scripts/helm-deploy.sh dev
+./devops/scripts/helm-deploy.sh qa
+./devops/scripts/helm-deploy.sh test
+./devops/scripts/helm-deploy.sh prod
 ```
 
 ## Manual Helm (equivalent)
 
 ```bash
 # DEV
-helm upgrade --install retail-dev platform/helm/retail-platform \
+helm upgrade --install retail-dev devops/helm/retail-platform \
   --namespace retail-dev --create-namespace \
-  -f platform/helm/retail-platform/values.yaml \
-  -f platform/helm/retail-platform/values-dev.yaml \
-  -f platform/helm/retail-platform/services.generated.yaml \
+  -f devops/helm/retail-platform/values.yaml \
+  -f devops/helm/retail-platform/values-dev.yaml \
+  -f devops/helm/retail-platform/services.generated.yaml \
   --wait --timeout 20m
 
 # QA
-helm upgrade --install retail-qa platform/helm/retail-platform \
+helm upgrade --install retail-qa devops/helm/retail-platform \
   --namespace retail-qa --create-namespace \
-  -f platform/helm/retail-platform/values.yaml \
-  -f platform/helm/retail-platform/values-qa.yaml \
-  -f platform/helm/retail-platform/services.generated.yaml \
+  -f devops/helm/retail-platform/values.yaml \
+  -f devops/helm/retail-platform/values-qa.yaml \
+  -f devops/helm/retail-platform/services.generated.yaml \
   --wait --timeout 20m
 
 # TEST
-helm upgrade --install retail-test platform/helm/retail-platform \
+helm upgrade --install retail-test devops/helm/retail-platform \
   --namespace retail-test --create-namespace \
-  -f platform/helm/retail-platform/values.yaml \
-  -f platform/helm/retail-platform/values-test.yaml \
-  -f platform/helm/retail-platform/services.generated.yaml \
+  -f devops/helm/retail-platform/values.yaml \
+  -f devops/helm/retail-platform/values-test.yaml \
+  -f devops/helm/retail-platform/services.generated.yaml \
   --wait --timeout 20m
 
 # PROD
-helm upgrade --install retail-prod platform/helm/retail-platform \
+helm upgrade --install retail-prod devops/helm/retail-platform \
   --namespace retail-prod --create-namespace \
-  -f platform/helm/retail-platform/values.yaml \
-  -f platform/helm/retail-platform/values-prod.yaml \
-  -f platform/helm/retail-platform/services.generated.yaml \
+  -f devops/helm/retail-platform/values.yaml \
+  -f devops/helm/retail-platform/values-prod.yaml \
+  -f devops/helm/retail-platform/services.generated.yaml \
   --wait --timeout 20m
 ```
 
@@ -51,13 +51,13 @@ helm upgrade --install retail-prod platform/helm/retail-platform \
 
 ```bash
 # Lint / dry-run
-helm lint platform/helm/retail-platform \
-  -f platform/helm/retail-platform/values-dev.yaml \
-  -f platform/helm/retail-platform/services.generated.yaml
+helm lint devops/helm/retail-platform \
+  -f devops/helm/retail-platform/values-dev.yaml \
+  -f devops/helm/retail-platform/services.generated.yaml
 
-helm template retail-dev platform/helm/retail-platform \
-  -f platform/helm/retail-platform/values-dev.yaml \
-  -f platform/helm/retail-platform/services.generated.yaml > /tmp/rendered.yaml
+helm template retail-dev devops/helm/retail-platform \
+  -f devops/helm/retail-platform/values-dev.yaml \
+  -f devops/helm/retail-platform/services.generated.yaml > /tmp/rendered.yaml
 
 # Status / rollback
 helm -n retail-dev status retail-dev
@@ -65,9 +65,9 @@ helm -n retail-dev history retail-dev
 helm -n retail-dev rollback retail-dev
 
 # Diff (plugin: helm-diff)
-helm diff upgrade retail-dev platform/helm/retail-platform \
-  -f platform/helm/retail-platform/values-dev.yaml \
-  -f platform/helm/retail-platform/services.generated.yaml
+helm diff upgrade retail-dev devops/helm/retail-platform \
+  -f devops/helm/retail-platform/values-dev.yaml \
+  -f devops/helm/retail-platform/services.generated.yaml
 ```
 
 ## GKE Gateway API (once per cluster)

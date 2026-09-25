@@ -1,75 +1,50 @@
-# Infrastructure — pure Terraform (no Terragrunt)
+# Infrastructure — Fabric FAST landing zone
 
-Reusable modules: `terraform/modules/<name>/`  
-Live stacks per environment: `terraform/live/<env>/<stack>/`
+Pure Terraform (no Terragrunt). Stages under `fast/stages/`; modules under `fast/modules/` (network via [Cloud Foundation Fabric](https://github.com/GoogleCloudPlatform/cloud-foundation-fabric) `net-vpc`).
 
 ## Layout
 
 ```text
-infra/terraform/live/dev/
-  env.tfvars                 # project_id, region, env, state_bucket, github_*
-  project_services/
-    backend.tf versions.tf provider.tf variables.tf main.tf outputs.tf
-    project_services.tfvars
-  network/
-    network.tfvars
-  ... (cloud_storage, github_wif, gke, cloudsql, pubsub, cloudrun)
+infra/fast/datasets/dev/env.tfvars
+infra/fast/stages/0-bootstrap|1-network|2-platform/<stack>/
 ```
 
-Each stack = **separate GCS state**: `gs://{project}-retail-tfstate-{env}/{env}/{stack}/`
+Apply order: `project_services` → `cloud_storage` → `github_wif` → `network` → `gke` → `cloudsql` → `pubsub` → `cloudrun`
 
-Module file standard: see [`terraform/modules/README.md`](terraform/modules/README.md).
-
-> **Note:** `infra/terragrunt/` is **deprecated** — use `terraform/live/` only.
-
-## Regenerate live stacks
-
-```bash
-node infra/scripts/generate-tf-live.mjs
-```
-
-## Bootstrap (once per env)
+## Bootstrap
 
 ```bash
 ./infra/scripts/gcp-bootstrap.sh dev
-export TF_VAR_database_password='strong-password'   # required for cloudsql apply
+export TF_VAR_database_password='strong-password'
 ```
 
-Step-by-step guide: [`docs/INFRA_SETUP.md`](../docs/INFRA_SETUP.md)
-
-## Commands
-
-Single stack:
+## Terraform
 
 ```bash
-./infra/scripts/tf.sh dev project_services init
-./infra/scripts/tf.sh dev project_services plan
-./infra/scripts/tf.sh dev project_services apply
-```
-
-All stacks in order:
-
-```bash
+./infra/scripts/tf.sh dev network init
 ./infra/scripts/tf-apply-all.sh dev plan
 ./infra/scripts/tf-apply-all.sh dev apply
 ```
 
-Apply order (dependencies): `project_services` → `cloud_storage` → `github_wif` → `network` → `gke` → `cloudsql` → `pubsub` → `cloudrun`
-
-## Manual terraform (same as tf.sh)
+Regenerate stage roots after module changes:
 
 ```bash
-cd infra/terraform/live/dev/network
-terraform init -reconfigure \
-  -backend-config="bucket=ai-rag-agent-project-retail-tfstate-dev" \
-  -backend-config="prefix=dev/network"
-terraform plan -var-file=../env.tfvars -var-file=network.tfvars
+node infra/scripts/generate-fast-stages.mjs
 ```
 
-## GitHub Actions
+## CI
 
-Workflow: `.github/workflows/terraform-live.yml` (Terraform only, WIF auth).
+Workflow [`.github/workflows/infra-ci.yml`](../.github/workflows/infra-ci.yml):
 
-Secrets per GitHub Environment: `GCP_WIF_PROVIDER`, `GCP_CI_SERVICE_ACCOUNT`, `GCP_PROJECT_ID`, `GCP_REGION`, `TF_VAR_database_password`.
+1. **unit** — `fmt -check`, `validate`, plan (bootstrap stacks only)
+2. **integration** — unit + `terraform test`
+3. **terraform-live** — GCP `plan` on PR / manual `apply` (needs GitHub Environment secrets)
 
-After `github_wif` apply, copy outputs into GitHub secrets (see [`.github/GITHUB_SETUP.md`](../.github/GITHUB_SETUP.md)).
+## Tests (local)
+
+```bash
+./infra/scripts/test-unit.sh dev
+./infra/scripts/test-integration.sh dev
+```
+
+Guide: [`docs/INFRA_SETUP.md`](../docs/INFRA_SETUP.md)

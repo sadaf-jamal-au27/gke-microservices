@@ -1,5 +1,0 @@
-gke_subnet_cidr            = "10.14.0.0/20"
-pods_cidr                  = "10.24.0.0/16"
-services_cidr              = "10.34.0.0/20"
-sql_subnet_cidr            = "10.15.0.0/24"
-serverless_connector_cidr  = "10.10.0.0/28"

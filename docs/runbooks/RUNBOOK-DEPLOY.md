@@ -9,13 +9,13 @@
 ## 1. Configure
 
 ```bash
-node infra/scripts/generate-tf-live.mjs
+node infra/scripts/generate-fast-stages.mjs
 ```
 
 Edit:
 
-- `infra/terraform/live/<env>/env.tfvars` — `project_id`, `github_org`, `github_repo`
-- `infra/terraform/live/<env>/<stack>/<stack>.tfvars` — module overrides
+- `infra/fast/datasets/<env>/env.tfvars` — `project_id`, `github_org`, `github_repo`
+- `infra/fast/stages/<stage>/<stack>/<stack>.tfvars` — module overrides
 
 ## 2. Bootstrap GCP
 
@@ -50,6 +50,6 @@ See [`RUNBOOK-HELM.md`](./RUNBOOK-HELM.md) and [`infra/README.md`](../../infra/R
 
 ```bash
 gcloud container clusters get-credentials retail-dev --region asia-south1
-./scripts/build-all-images.sh
-./scripts/helm-deploy.sh dev
+./devops/scripts/build-all-images.sh
+./devops/scripts/helm-deploy.sh dev
 ```

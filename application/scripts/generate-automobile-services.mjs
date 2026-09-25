@@ -3,8 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-const servicesDir = path.join(root, "services");
+const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "../..");
+const servicesDir = path.join(root, "application", "services");
 
 const AUTO_SERVICES = [
   { name: "vehicle-catalog-service", port: 3101, domain: "automobile-catalog" },
@@ -185,7 +185,7 @@ for (const s of AUTO_SERVICES) {
 
   fs.writeFileSync(
     path.join(dir, "tsconfig.json"),
-    JSON.stringify({ extends: "../../tsconfig.base.json", compilerOptions: { outDir: "dist", rootDir: "src" }, include: ["src/**/*"] }, null, 2)
+    JSON.stringify({ extends: "../../../tsconfig.base.json", compilerOptions: { outDir: "dist", rootDir: "src" }, include: ["src/**/*"] }, null, 2)
   );
 
   fs.writeFileSync(

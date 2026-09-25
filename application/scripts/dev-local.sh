@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Developer local stack — run from repo root after: ./scripts/setup-local.sh
 set -euo pipefail
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
 
-"$ROOT/scripts/dev-stop.sh"
+"$ROOT/application/scripts/dev-stop.sh"
 
 export DB_HOST="${DB_HOST:-127.0.0.1}"
 export DB_PORT="${DB_PORT:-5432}"
@@ -15,7 +15,7 @@ export DB_SSL="${DB_SSL:-false}"
 
 if ! docker exec retail-postgres pg_isready -U retail_app -d retail >/dev/null 2>&1; then
   echo "Postgres not ready — running setup-local.sh…"
-  "$ROOT/scripts/setup-local.sh"
+  "$ROOT/application/scripts/setup-local.sh"
 fi
 
 exec pnpm exec concurrently --kill-others-on-fail -c auto \
