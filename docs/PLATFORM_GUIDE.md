@@ -193,13 +193,14 @@ Workflows call **Terraform CLI** directly in `infra-plan.yml` / `infra-apply.yml
 |-----|----------------------|-------------|--------------|
 | **static** | `Terraform static checks` | None | `terraform fmt -check`, `validate` per stack, `terraform test` |
 | **terraform-plan** | `Terraform plan (GCP)` | WIF | `terraform init` + `plan` per stack (GCS backend), upload `.tfplan` |
-| **terraform-apply** | `Terraform apply (GCP)` | WIF + env gate | Manual dispatch: plan → `terraform apply` saved plans |
+| **terraform-apply** | `Terraform apply (GCP)` | WIF + env gate | **Push** to `develop`/`main` (infra paths) or manual dispatch: plan → apply saved plans |
 
 Trigger: `infra/**` + `.github/**` (monorepo) or `fast/**`, `tests/**` (gke-retail-infra).
 
 | Event | Jobs | GitHub Environment | Terraform |
 |-------|------|-------------------|-----------|
 | PR → `develop` / `main` | static + **plan** | `dev` or `prod` (by base branch) | remote plan |
+| Push **develop** / **main** (infra paths) | plan + **apply** | matching env | plan → apply |
 | Manual **infra-apply** | plan + apply | you choose | plan → apply |
 | Manual **infra-plan** dispatch | static + plan | you choose | remote plan |
 

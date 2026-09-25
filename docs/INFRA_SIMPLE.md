@@ -79,7 +79,7 @@ export TF_VAR_database_password='your-dev-password'
 ./infra/scripts/tf.sh dev network plan
 ```
 
-PRs: GitHub runs **fmt / validate / test**, then **remote plan**. Merge → manual **Infra Terraform Apply** workflow.
+PRs: GitHub runs **fmt / validate / test**, then **remote plan**. **Merge to `develop`/`main`** runs **Infra Terraform Apply** (when `infra/**` changed). Manual re-run: Actions → **Infra Terraform Apply**.
 
 ---
 

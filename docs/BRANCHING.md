@@ -15,30 +15,30 @@ Org: **`sadaf-jamal-au27`**. Same flow on every repo.
 ```text
 feature/* ──PR──► develop ──PR──► main
               │              │
-              │              └─ merge → manual infra-apply (branch main, env prod)
-              └─ merge → manual infra-apply (branch develop, env dev)
+              │              └─ merge → infra-apply (push, env prod)
+              └─ merge → infra-apply (push, env dev)
 
 Every PR → infra-plan (static + GCP plan)
+Merge to develop/main (infra paths) → infra-apply auto
 ```
 
-## CI — PR + manual apply
+## CI — PR plan, apply on merge
 
 | Step | How | Workflow |
 |------|-----|----------|
 | **Plan** | Open/update **Pull Request** → `develop` or `main` | **infra-plan** |
-| **Merge** | Approve PR on GitHub | (no auto apply) |
-| **Apply** | **Actions → infra-apply → Run workflow** | **infra-apply** |
+| **Merge** | Approve PR on GitHub | — |
+| **Apply** | **Automatic** on push to `develop` / `main` (when `infra/**` changed) | **infra-apply** |
+| **Apply (manual)** | Actions → **Infra Terraform Apply** → Run workflow | **infra-apply** |
 
-| PR target | Plan uses GitHub env | After merge, manual apply |
-|-----------|----------------------|---------------------------|
-| **`develop`** | `dev` | branch **`develop`**, environment **`dev`**, `tf_env` **`dev`** |
-| **`main`** | `prod` | branch **`main`**, environment **`prod`**, `tf_env` **`dev`**\* |
+| Merge target | Apply trigger | GitHub env | `tf_env` |
+|--------------|---------------|------------|----------|
+| **`develop`** | push to `develop` | `dev` | `dev` |
+| **`main`** | push to `main` | `prod` | `prod` |
 
-\*Until real prod GCP exists, **`prod` secrets mirror `dev`**.
+Optional: Environments **`dev`** / **`prod`** → **Required reviewers** (approve before apply job runs).
 
-**No** push-triggered plan or apply — sirf **PR** se plan, **manual dispatch** se apply.
-
-Optional: GitHub → Environments **`dev`** / **`prod`** → **Required reviewers** (human approve before apply job runs).
+**No** push-triggered plan — sirf **PR** se plan.
 
 ## Daily workflow
 
@@ -48,10 +48,9 @@ git checkout -b feature/my-change
 # edit infra/ or fast/
 git push -u origin feature/my-change
 # GitHub: Open PR → develop → wait for infra-plan checks → merge
+# merge triggers infra-apply on develop automatically (if infra/ changed)
 
-# Then: Actions → infra-apply → branch develop, env dev, tf_env dev → Run
-
-# Release: PR develop → main → merge → infra-apply → branch main, env prod
+# Or re-run: Actions → Infra Terraform Apply → branch develop, env dev
 ```
 
 Setup:
