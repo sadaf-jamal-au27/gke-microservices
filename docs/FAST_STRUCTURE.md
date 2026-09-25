@@ -75,6 +75,8 @@ Stage numbering aligns with intent, not Fabric’s exact names:
 
 ## Apply order & dependencies
 
+**Why CI runs init + plan per stack:** each folder under `stages/…/<stack>/` is an independent Terraform **root** with its own backend prefix in GCS (for example `dev/gke/` vs `dev/network/`). Terraform cannot init or plan them in one command. GitHub Actions uses a fresh VM each run, so every stack gets `terraform init` (remote backend) then `terraform plan` once per job.
+
 ```text
 project_services → cloud_storage → github_wif → network → gke → cloudsql → pubsub
                                                           ↘ cloudrun (needs GKE + app image)
