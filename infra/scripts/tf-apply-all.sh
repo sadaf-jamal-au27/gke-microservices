@@ -18,7 +18,7 @@ STACKS=(
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 for stack in "${STACKS[@]}"; do
-  echo "==== ${ENV}/${stack}: terraform ${ACTION} ===="
+  echo "==== FAST ${ENV}/${stack}: terraform ${ACTION} ===="
   "${SCRIPT_DIR}/tf.sh" "${ENV}" "${stack}" init
   "${SCRIPT_DIR}/tf.sh" "${ENV}" "${stack}" "${ACTION}"
 done

@@ -1,0 +1,37 @@
+name: Quality Gate
+
+# Runs on every PR to summarize required lanes; pair with branch protection checks listed in testing/gates/REQUIRED_CHECKS.md
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  gate:
+    name: Quality Gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Summarize required pipelines
+        run: |
+          cat <<'EOF'
+          Required lanes for this monorepo:
+            • Application CI  — application/**
+            • DevOps CI       — devops/**
+            • Infra CI        — infra/** (unit + integration; GCP plan if secrets set)
+            • E2E CI          — application + testing/e2e (smoke)
+
+          Branching: see docs/BRANCHING.md (develop → integration, main → prod).
+          See testing/gates/REQUIRED_CHECKS.md
+          EOF
+
+      - name: Path change hints
+        run: |
+          base="${{ github.event.pull_request.base.sha }}"
+          head="${{ github.event.pull_request.head.sha }}"
+          git diff --name-only "$base" "$head" | head -50 || true

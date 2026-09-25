@@ -4,22 +4,33 @@ set -euo pipefail
 ENV="${1:?Usage: tf.sh <dev|qa|test|prod> <stack> <init|plan|apply|destroy|output>}"
 STACK="${2:?stack: project_services|cloud_storage|github_wif|network|gke|cloudsql|pubsub|cloudrun}"
 ACTION="${3:-plan}"
+shift 3 || true
+EXTRA_ARGS=("$@")
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-DIR="${ROOT}/terraform/live/${ENV}/${STACK}"
-ENV_TFVARS="${ROOT}/terraform/live/${ENV}/env.tfvars"
+FAST="${ROOT}/fast"
+
+STAGE=""
+case "${STACK}" in
+  project_services|cloud_storage|github_wif) STAGE="0-bootstrap" ;;
+  network) STAGE="1-network" ;;
+  gke|cloudsql|pubsub|cloudrun) STAGE="2-platform" ;;
+  *)
+    echo "Unknown stack: ${STACK}"
+    exit 1
+    ;;
+esac
+
+DIR="${FAST}/stages/${STAGE}/${STACK}"
+ENV_TFVARS="${FAST}/datasets/${ENV}/env.tfvars"
 STACK_TFVARS="${DIR}/${STACK}.tfvars"
 
 if [[ ! -d "${DIR}" ]]; then
-  echo "Missing stack: ${DIR}. Run: node infra/scripts/generate-tf-live.mjs"
+  echo "Missing ${DIR}. Run: node infra/scripts/generate-fast-stages.mjs"
   exit 1
 fi
 
 PROJECT_ID="$(grep '^project_id' "${ENV_TFVARS}" | head -1 | cut -d'"' -f2)"
-if [[ -z "${PROJECT_ID}" ]]; then
-  echo "Could not read project_id from ${ENV_TFVARS}"
-  exit 1
-fi
 STATE_BUCKET="${PROJECT_ID}-retail-tfstate-${ENV}"
 PREFIX="${ENV}/${STACK}"
 
@@ -35,7 +46,12 @@ if [[ "${ACTION}" == "init" ]]; then
   exit 0
 fi
 
+DATASET_STACK_TFVARS="${FAST}/datasets/${ENV}/${STACK}.tfvars"
+
 VAR_ARGS=(-var-file="${ENV_TFVARS}")
+if [[ -f "${DATASET_STACK_TFVARS}" ]]; then
+  VAR_ARGS+=(-var-file="${DATASET_STACK_TFVARS}")
+fi
 if [[ -f "${STACK_TFVARS}" ]]; then
   VAR_ARGS+=(-var-file="${STACK_TFVARS}")
 fi
@@ -49,7 +65,7 @@ case "${ACTION}" in
     terraform "${ACTION}" "${VAR_ARGS[@]}" "${extra[@]}"
     ;;
   output|validate|fmt)
-    terraform "${ACTION}" "$@"
+    terraform "${ACTION}" "${EXTRA_ARGS[@]}"
     ;;
   *)
     terraform "${ACTION}" "${VAR_ARGS[@]}"

@@ -4,7 +4,7 @@ set -euo pipefail
 
 ENV="${1:-dev}"
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-ENV_TFVARS="${ROOT}/infra/terraform/live/${ENV}/env.tfvars"
+ENV_TFVARS="${ROOT}/infra/fast/datasets/${ENV}/env.tfvars"
 
 echo "=== Infra preflight (${ENV}) ==="
 

@@ -1,0 +1,68 @@
+name: DevOps CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "devops/**"
+      - ".github/workflows/devops-ci.yml"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "devops/**"
+      - ".github/workflows/devops-ci.yml"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Helm values set
+        required: true
+        type: choice
+        options: [dev, qa, test, prod]
+
+concurrency:
+  group: devops-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  helm:
+    name: DevOps CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.16.3
+      - name: Lint and template chart
+        run: |
+          chmod +x devops/scripts/validate-helm.sh
+          ./devops/scripts/validate-helm.sh "${{ github.event.inputs.environment || 'dev' }}"
+
+  deploy:
+    name: Helm deploy (manual)
+    if: github.event_name == 'workflow_dispatch'
+    needs: helm
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_CI_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - uses: azure/setup-helm@v4
+        with:
+          version: v3.16.3
+      - name: Deploy
+        env:
+          GCP_REGION: ${{ secrets.GCP_REGION }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          gcloud container clusters get-credentials "retail-${{ github.event.inputs.environment }}" \
+            --region "${GCP_REGION}" --project "${GCP_PROJECT_ID}"
+          chmod +x devops/scripts/helm-deploy.sh
+          ./devops/scripts/helm-deploy.sh "${{ github.event.inputs.environment }}"
