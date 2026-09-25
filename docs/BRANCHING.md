@@ -18,23 +18,23 @@ feature/* ──PR──► develop ──PR──► main
               │              └─ merge → infra-apply (push, env prod)
               └─ merge → infra-apply (push, env dev)
 
-Every PR → infra-plan (static + GCP plan)
-Merge to develop/main (infra paths) → infra-apply auto
+Every PR → infra-plan (static + GCP plan) only — merge button ke baad apply alag workflow chalti hai.
 ```
 
 ## CI — PR plan, apply on merge
 
-| Step | How | Workflow |
-|------|-----|----------|
-| **Plan** | Open/update **Pull Request** → `develop` or `main` | **infra-plan** |
-| **Merge** | Approve PR on GitHub | — |
-| **Apply** | **Automatic** on push to `develop` / `main` (when `infra/**` changed) | **infra-apply** |
-| **Apply (manual)** | Actions → **Infra Terraform Apply** → Run workflow | **infra-apply** |
+| Step | Kya dikhega | Workflow |
+|------|-------------|----------|
+| **PR open/update** (→ `develop` or `main`) | Sirf **plan** checks | **infra-plan** |
+| **Merge PR** (same paths: `infra/**`, workflows) | **Apply** job | **infra-apply** (`pull_request: closed` + merged) |
+| **Manual re-run** | Actions → Run workflow | **infra-apply** |
 
-| Merge target | Apply trigger | GitHub env | `tf_env` |
-|--------------|---------------|------------|----------|
-| **`develop`** | push to `develop` | `dev` | `dev` |
-| **`main`** | push to `main` | `prod` | `prod` |
+| PR target | After **Merge** | GitHub env | `tf_env` |
+|-----------|-----------------|------------|----------|
+| **`develop`** | apply runs | `dev` | `dev` |
+| **`main`** | apply runs | `prod` | `prod` |
+
+PR band karte waqt bina merge ke apply **nahi** chalti (`if: merged == true`).
 
 Optional: Environments **`dev`** / **`prod`** → **Required reviewers** (approve before apply job runs).
 
