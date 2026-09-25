@@ -1,0 +1,359 @@
+# Auto-generated — run: node scripts/generate-services.mjs
+services:
+  - name: auth-service
+    domain: identity
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/auth-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: true
+  - name: user-service
+    domain: identity
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/user-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: true
+  - name: role-service
+    domain: identity
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/role-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: session-service
+    domain: identity
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/session-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: product-service
+    domain: catalog
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/product-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: true
+  - name: category-service
+    domain: catalog
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/category-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: brand-service
+    domain: catalog
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/brand-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: inventory-service
+    domain: catalog
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/inventory-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: true
+  - name: warehouse-service
+    domain: catalog
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/warehouse-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: pricing-service
+    domain: catalog
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/pricing-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: promotion-service
+    domain: catalog
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/promotion-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: coupon-service
+    domain: catalog
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/coupon-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: catalog-search-service
+    domain: catalog
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/catalog-search-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: media-asset-service
+    domain: catalog
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/media-asset-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: cart-service
+    domain: commerce
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/cart-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: true
+  - name: checkout-service
+    domain: commerce
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/checkout-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: order-service
+    domain: commerce
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/order-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: true
+  - name: order-fulfillment-service
+    domain: commerce
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/order-fulfillment-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: payment-service
+    domain: commerce
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/payment-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: payment-gateway-adapter
+    domain: commerce
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/payment-gateway-adapter
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: refund-service
+    domain: commerce
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/refund-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: invoice-service
+    domain: commerce
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/invoice-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: tax-service
+    domain: commerce
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/tax-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: shipping-service
+    domain: fulfillment
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/shipping-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: delivery-service
+    domain: fulfillment
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/delivery-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: pickup-service
+    domain: fulfillment
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/pickup-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: store-locator-service
+    domain: fulfillment
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/store-locator-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: returns-service
+    domain: fulfillment
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/returns-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: exchange-service
+    domain: fulfillment
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/exchange-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: supplier-service
+    domain: supply
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/supplier-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: procurement-service
+    domain: supply
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/procurement-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: customer-profile-service
+    domain: customer
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/customer-profile-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: loyalty-service
+    domain: customer
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/loyalty-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: wishlist-service
+    domain: customer
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/wishlist-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: review-service
+    domain: customer
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/review-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: rating-service
+    domain: customer
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/rating-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: recommendation-service
+    domain: customer
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/recommendation-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: notification-service
+    domain: engagement
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/notification-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: email-service
+    domain: engagement
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/email-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: sms-service
+    domain: engagement
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/sms-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: push-notification-service
+    domain: engagement
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/push-notification-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: gift-card-service
+    domain: engagement
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/gift-card-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: subscription-service
+    domain: engagement
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/subscription-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: content-cms-service
+    domain: content
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/content-cms-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: analytics-event-service
+    domain: platform
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/analytics-event-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: reporting-service
+    domain: platform
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/reporting-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: fraud-detection-service
+    domain: platform
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/fraud-detection-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: audit-log-service
+    domain: platform
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/audit-log-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: webhook-dispatcher-service
+    domain: platform
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/webhook-dispatcher-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: integration-hub-service
+    domain: platform
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/integration-hub-service
+    tag: 1.0.0
+    replicas: 2
+    enableCloudSqlProxy: false
+  - name: bff-api-service
+    domain: edge
+    port: 8080
+    image: us-docker.pkg.dev/PROJECT_ID/retail/bff-api-service
+    tag: 1.0.0
+    replicas: 3
+    enableCloudSqlProxy: false

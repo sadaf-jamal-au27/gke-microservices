@@ -1,0 +1,13 @@
+global:
+  env: prod
+  namespace: retail-prod
+  projectId: REPLACE_GCP_PROD_PROJECT
+  imageRegistry: asia-south1-docker.pkg.dev/REPLACE_GCP_PROD_PROJECT/retail
+  cloudSql:
+    instanceConnectionName: REPLACE_GCP_PROD_PROJECT:asia-south1:retail-prod-pg
+  serviceAccount:
+    gsaEmail: retail-workload-prod@REPLACE_GCP_PROD_PROJECT.iam.gserviceaccount.com
+
+gateway:
+  hostname: shop.yourdomain.com
+  adminHostname: admin.yourdomain.com

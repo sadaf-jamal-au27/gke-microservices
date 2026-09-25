@@ -1,0 +1,119 @@
+{{- range .Values.services }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Values.global.namespace }}
+  labels:
+    app: {{ .name }}
+    domain: {{ .domain }}
+    {{- include "retail.labels" $ | nindent 4 }}
+spec:
+  replicas: {{ .replicas }}
+  selector:
+    matchLabels:
+      app: {{ .name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .name }}
+        domain: {{ .domain }}
+    spec:
+      serviceAccountName: {{ $.Values.global.serviceAccount.name }}
+      securityContext:
+        runAsNonRoot: {{ $.Values.global.podSecurity.runAsNonRoot }}
+        runAsUser: {{ $.Values.global.podSecurity.runAsUser }}
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: {{ .name }}
+          image: "{{ $.Values.global.imageRegistry }}/{{ .name }}:{{ $.Values.global.imageTag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: {{ .port }}
+          env:
+            - name: PORT
+              value: "{{ .port }}"
+            - name: GOOGLE_CLOUD_PROJECT
+              value: "{{ $.Values.global.projectId }}"
+            - name: PUBSUB_TOPIC_PREFIX
+              value: retail
+            - name: LOG_LEVEL
+              value: info
+            - name: CORS_ORIGINS
+              value: "https://{{ $.Values.gateway.hostname }},https://{{ $.Values.gateway.adminHostname }}"
+            {{- if .enableCloudSqlProxy }}
+            - name: DB_HOST
+              value: "127.0.0.1"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: retail_app
+            - name: DB_NAME
+              value: retail
+            - name: DB_SSL
+              value: "false"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: retail-db
+                  key: password
+            {{- end }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: {{ $.Values.global.podSecurity.readOnlyRootFilesystem }}
+            capabilities:
+              drop: ["ALL"]
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: http
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+            initialDelaySeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+        {{- if .enableCloudSqlProxy }}
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.1
+          args:
+            - "--structured-logs"
+            - "--private-ip"
+            - "{{ $.Values.global.cloudSql.instanceConnectionName }}"
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+        {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Values.global.namespace }}
+  labels:
+    app: {{ .name }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .name }}
+  ports:
+    - port: 80
+      targetPort: http
+      name: http
+{{- end }}

@@ -1,0 +1,22 @@
+{
+  "name": "retail-platform",
+  "private": true,
+  "version": "1.0.0",
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "generate:services": "node scripts/generate-services.mjs",
+    "generate:auto": "node scripts/generate-automobile-services.mjs",
+    "setup": "bash scripts/setup-local.sh",
+    "dev": "bash scripts/dev-local.sh",
+    "dev:stop": "bash scripts/dev-stop.sh",
+    "dev:auto": "bash scripts/dev-automobile.sh",
+    "build": "pnpm -r build",
+    "dev:bff": "pnpm --filter @retail/bff-api-service dev",
+    "dev:storefront": "pnpm --filter @retail/storefront dev",
+    "dev:admin": "pnpm --filter @retail/admin dev",
+    "lint": "echo \"Add eslint in CI\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

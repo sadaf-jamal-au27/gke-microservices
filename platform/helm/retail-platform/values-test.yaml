@@ -1,0 +1,16 @@
+global:
+  env: test
+  namespace: retail-test
+  projectId: REPLACE_GCP_TEST_PROJECT
+  imageRegistry: asia-south1-docker.pkg.dev/REPLACE_GCP_TEST_PROJECT/retail
+  cloudSql:
+    instanceConnectionName: REPLACE_GCP_TEST_PROJECT:asia-south1:retail-test-pg
+  serviceAccount:
+    gsaEmail: retail-workload-test@REPLACE_GCP_TEST_PROJECT.iam.gserviceaccount.com
+
+gateway:
+  hostname: test-shop.example.com
+  adminHostname: test-admin.example.com
+
+bff:
+  replicas: 2

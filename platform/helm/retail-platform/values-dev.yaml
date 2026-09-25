@@ -1,0 +1,16 @@
+global:
+  env: dev
+  namespace: retail-dev
+  projectId: ai-rag-agent-project
+  imageRegistry: asia-south1-docker.pkg.dev/ai-rag-agent-project/retail
+  cloudSql:
+    instanceConnectionName: ai-rag-agent-project:asia-south1:retail-dev-pg
+  serviceAccount:
+    gsaEmail: retail-workload-dev@ai-rag-agent-project.iam.gserviceaccount.com
+
+gateway:
+  hostname: dev-shop.example.com
+  adminHostname: dev-admin.example.com
+
+bff:
+  replicas: 1
