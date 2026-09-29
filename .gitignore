@@ -4,8 +4,9 @@ dist
 .env.*
 !.env.example
 terraform.tfvars
+shared.tfvars
 *.tfstate
 *.tfstate.*
 .terraform/
+.terraform-plan/
 .DS_Store
-gke-retail-infra/
