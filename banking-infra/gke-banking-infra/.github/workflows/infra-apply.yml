@@ -1,0 +1,61 @@
+name: Infra Terraform Apply
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [develop, main]
+    paths:
+      - "terraform/**"
+  workflow_dispatch:
+    inputs:
+      github_environment:
+        description: GitHub Environment (secrets)
+        required: true
+        type: choice
+        default: dev
+        options: [dev]
+
+concurrency:
+  group: infra-apply-${{ github.repository }}-dev
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  TF_VERSION: "1.10.2"
+
+jobs:
+  terraform-apply:
+    name: Terraform apply
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    environment: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.github_environment || 'dev' }}
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      TF_VAR_database_password: ${{ secrets.TF_VAR_DATABASE_PASSWORD }}
+      TF_PLAN_DIR: ${{ runner.temp }}/banking-dev-plans
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.ref || github.event.pull_request.merge_commit_sha }}
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_CI_SERVICE_ACCOUNT }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+
+      - name: terraform plan and apply (ordered stacks)
+        run: |
+          node scripts/terraform-stacks.mjs plan dev
+          node scripts/terraform-stacks.mjs apply dev

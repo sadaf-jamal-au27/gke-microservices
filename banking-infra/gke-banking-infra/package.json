@@ -1,0 +1,13 @@
+{
+  "name": "gke-banking-infra",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "scripts": {
+    "tf:fmt": "node scripts/terraform-stacks.mjs fmt",
+    "tf:init": "node scripts/terraform-stacks.mjs init dev",
+    "tf:validate": "node scripts/terraform-stacks.mjs validate dev",
+    "tf:plan": "node scripts/terraform-stacks.mjs plan dev",
+    "tf:apply": "node scripts/terraform-stacks.mjs apply dev"
+  }
+}

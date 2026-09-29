@@ -1,0 +1,9 @@
+output "network_id" { value = module.network.network_id }
+output "network_name" { value = module.network.network_name }
+output "gke_subnet_name" { value = module.network.gke_subnet_name }
+output "data_subnet_name" { value = module.network.data_subnet_name }
+output "psc_subnet_name" { value = module.network.psc_subnet_name }
+output "psc_subnet_self_link" { value = module.network.psc_subnet_self_link }
+output "pods_range_name" { value = module.network.pods_range_name }
+output "services_range_name" { value = module.network.services_range_name }
+output "psc_googleapis_address" { value = module.network.psc_googleapis_address }

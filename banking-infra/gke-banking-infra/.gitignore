@@ -1,0 +1,12 @@
+node_modules
+dist
+.env
+.env.*
+!.env.example
+terraform.tfvars
+shared.tfvars
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform-plan/
+.DS_Store
