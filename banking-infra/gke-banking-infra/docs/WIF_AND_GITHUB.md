@@ -1,73 +1,24 @@
-# WIF + GitHub Actions setup
+# WIF + GitHub
 
-**GCP dev project:** `ai-rag-agent-project` · **region:** `asia-south1`  
-**Branching:** feature → **`develop`** → **`main`** (see `docs/BRANCHING.md`)
+**GCP:** `ai-rag-agent-project` · **region:** `asia-south1`  
+**App repo:** [sadaf-jamal-au27/apex-bank-app](https://github.com/sadaf-jamal-au27/apex-bank-app)  
+**Infra CI host (until split):** [sadaf-jamal-au27/gke-microservices](https://github.com/sadaf-jamal-au27/gke-microservices)
 
-## 1. GCP: Workload Identity Federation
+`github_repos` in `shared.tfvars` must include every repo that will federate:
 
-`fast/datasets/dev/github_wif.tfvars` trusts:
-
-- `gke-banking-infra`, `gke-banking-application`, `gke-banking-devops`, `gke-microservices`
-
-```bash
-./scripts/tf.sh dev github_wif apply
-./scripts/tf.sh dev github_wif output
+```hcl
+github_repos = [
+  "apex-bank-app",
+  "gke-microservices",
+]
 ```
 
-## 2. GitHub: two Environments
+Laptop: apply `00-foundation` then `01-iam`. Copy outputs into GitHub Environment **dev**:
 
-| GitHub Environment | Branch allowed to deploy | GCP today |
-|--------------------|--------------------------|-----------|
-| **`dev`** | **`develop`** | `ai-rag-agent-project` (`TF_ENV=dev`) |
-| **`prod`** | **`main`** | same project until prod GCP exists* |
+| Secret | From |
+|--------|------|
+| `GCP_WIF_PROVIDER` | `wif_provider` |
+| `GCP_CI_SERVICE_ACCOUNT` | `ci_service_account_email` |
+| `TF_VAR_DATABASE_PASSWORD` | Cloud SQL app password (infra apply only) |
 
-\*When prod project exists, add `fast/datasets/prod/`, apply infra there, and set **`prod`** secrets from that stack.
-
-### One-time setup (requires `gh auth login`)
-
-```bash
-cd ~/Projects/gke-banking-infra
-export TF_VAR_DATABASE_PASSWORD='cloudsql-password'
-./scripts/github-set-wif-secrets.sh dev --mirror-prod
-./scripts/github-setup-environments.sh
-./scripts/github-setup-branch-protection.sh
-```
-
-Creates secrets:
-
-| Secret | Purpose |
-|--------|---------|
-| `GCP_WIF_PROVIDER` | WIF provider resource name |
-| `GCP_CI_SERVICE_ACCOUNT` | `github-ci-dev@...` |
-| `GCP_PROJECT_ID` | GCP project |
-| `GCP_REGION` | `asia-south1` |
-| `TF_VAR_DATABASE_PASSWORD` | infra repos only |
-
-On both **`dev`** and **`prod`** GitHub environments (mirror until real prod).
-
-## 3. Ensure `develop` exists
-
-```bash
-gh api repos/sadaf-jamal-au27/gke-banking-infra/git/refs -f ref='refs/heads/develop' -f sha="$(gh api repos/sadaf-jamal-au27/gke-banking-infra/git/ref/heads/main --jq .object.sha)"
-```
-
-Or: `git checkout -b develop && git push -u origin develop`
-
-## 4. Verify
-
-```bash
-gh secret list --env dev --repo sadaf-jamal-au27/gke-banking-infra
-gh secret list --env prod --repo sadaf-jamal-au27/gke-banking-infra
-```
-
-- PR **feature → develop** → job **GCP terraform plan** (environment **dev**)
-- Merge **develop** → push → **GCP terraform apply** (environment **dev**)
-- PR **develop → main** → plan (environment **prod**)
-- Merge **main** → apply (environment **prod**)
-
-## 5. Prod GCP later
-
-1. Fill `fast/datasets/prod/env.tfvars`  
-2. `./scripts/gcp-bootstrap.sh prod` && `./scripts/tf-apply-all.sh prod apply`  
-3. `./scripts/github-set-wif-secrets.sh prod` (no mirror)  
-4. GitHub **prod** environment → add required reviewers
+App repo needs WIF only when pushing images to Artifact Registry. Typecheck/build/docker-build do not.

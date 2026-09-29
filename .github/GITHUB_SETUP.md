@@ -1,8 +1,8 @@
 # GitHub + WIF (banking pipelines)
 
-**Apex Bank is not the retail app.** Retail folders in this GitHub remote (if any) are a leftover workspace, not part of banking.
+**Apex Bank application GitHub repo is [apex-bank-app](https://github.com/sadaf-jamal-au27/apex-bank-app), not this remote.** This `gke-microservices` remote currently hosts **infra CI** until `gke-banking-infra` is split out.
 
-GitHub Actions only load workflows from the **repository root**: `.github/workflows/`. Banking jobs only watch `banking-app/` and `banking-infra/` paths.
+GitHub Actions only load workflows from the **repository root**: `.github/workflows/`. Infra jobs watch `banking-infra/`. App CI on **this** remote is leftover; live app pipelines belong on `apex-bank-app`.
 
 | Workflow | When | Needs |
 |----------|------|--------|

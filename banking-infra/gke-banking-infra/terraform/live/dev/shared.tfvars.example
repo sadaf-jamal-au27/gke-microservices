@@ -10,6 +10,7 @@ state_bucket_name = "ai-rag-agent-project-banking-tfstate-dev"
 
 github_org = "sadaf-jamal-au27"
 github_repos = [
+  "apex-bank-app",
   "gke-microservices",
 ]
 
